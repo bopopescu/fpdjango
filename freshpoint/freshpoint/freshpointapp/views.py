@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render
-from django.views.generic import TemplateView
 
 
 def intro(request):
@@ -13,8 +12,9 @@ def intro(request):
 
 
 def index(request):
-    main = loader.get_template('freshpointapp/index.html')
+    mainpage = loader.get_template('freshpointapp/index.html')
     context = {
 
     }
-    return HttpResponse(main.render(context, request))
+    return HttpResponse(mainpage.render(context, request))
+    #render(request, 'freshpointapp/index.html', {})
