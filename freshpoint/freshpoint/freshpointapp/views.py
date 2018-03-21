@@ -17,4 +17,10 @@ def index(request):
 
     }
     return HttpResponse(mainpage.render(context, request))
-    #render(request, 'freshpointapp/index.html', {})
+
+def upload(request):
+    uploadpage = loader.get_template('freshpointapp/upload.html')
+    context = {
+
+    }
+    return HttpResponse(uploadpage.render(context, request)) 

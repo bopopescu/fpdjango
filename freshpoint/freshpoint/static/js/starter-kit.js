@@ -8,11 +8,12 @@ Keen.ready(function(){
   // Pageviews by browser
 
   var pageviews_timeline = new Keen.Dataviz()
+    //img.src"../../../static/img/f_p_heatmapV1.png"
     .el('#chart-01')
     .type('area')
     .height(280)
     .stacked(true)
-    .title('Pageviews by browser')
+    .title('Heatmap')
     .prepare();
 
   client
@@ -42,7 +43,7 @@ Keen.ready(function(){
     .el('#chart-02')
     .type('pie')
     .height(280)
-    .title('Pageviews by browser')
+    .title('Heatmap')
     .prepare();
 
   client
