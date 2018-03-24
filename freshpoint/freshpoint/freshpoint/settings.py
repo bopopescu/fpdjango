@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_REDIRECT_URL = 'index'
 
 # Application definition
 
@@ -77,7 +78,7 @@ WSGI_APPLICATION = 'freshpoint.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'freshpoint',
+        'NAME': 'freshpoints',
         'USER': 'django',
         'PASSWORD': 'aggieprid3',
         'HOST': 'localhost',
