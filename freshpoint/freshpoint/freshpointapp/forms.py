@@ -14,4 +14,4 @@ class FoodClass(forms.ModelForm):
     
     class Meta:
         model = UFoodDB
-        fields = ['ID', 'ProductID', 'Size', 'Produce']
+        fields = ['UserID', 'ProductID', 'Size', 'Produce']

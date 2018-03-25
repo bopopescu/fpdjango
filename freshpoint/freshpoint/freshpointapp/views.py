@@ -62,7 +62,7 @@ def upload_csv(request):
         for line in lines:
             fields = line.split(",")
             data_dict = {}
-            data_dict["ID"] = fields[0]
+            data_dict["UserID"] = fields[0]
             data_dict["ProductID"] = fields[1]
             data_dict["Size"] = fields[2]
             data_dict["Produce"] = fields[3]
