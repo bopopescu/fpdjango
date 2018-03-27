@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = 'upload'
 LOGIN_URL = 'login'
 
 # Application definition
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'import_export',
+    #'import_export',
 ]
 
 MIDDLEWARE = [
