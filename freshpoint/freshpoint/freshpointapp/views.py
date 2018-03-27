@@ -1,13 +1,13 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, render_to_response, redirect
-from django.contrib.auth.views import login, logout
+from django.contrib.auth import authenticate, login, logout
 from django.views.generic import View
-from .forms import UserForm
-from django.contrib.auth import authenticate
+from .forms import UserForm, FoodClass
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
-
+from django.contrib import messages
+import logging
 
 class UserFormView(View):
     form_class = UserForm
@@ -67,11 +67,18 @@ def index(request):
 
 
 def login(request):
-    return redirect('login')
+    login = loader.get_template('freshpointapp/login.html')
+    context = {
+
+    }
+    return HttpResponse(login.render(context, request))
 
 
-def logout_view(request):
-    logout(request)
+def logout(request):
+    logout = loader.get_template('freshpointapp/logout.html')
+    context = {
+
+    }
     return redirect('login')
 
 
@@ -88,4 +95,47 @@ def upload(request):
     context = {
 
     }
-    return HttpResponse(uploadpage.render(context, request)) 
+    return HttpResponse(uploadpage.render(context, request))
+
+
+def upload_csv(request):
+    data = {}
+    if "GET" == request.method:
+        return render(request, "freshpointapp/upload.html", data)
+    # if not GET, then proceed
+    try:
+        csv_file = request.FILES["csv_file"]
+        if not csv_file.name.endswith('.csv'):
+            messages.error(request,'File is not CSV type')
+            return HttpResponseRedirect(reverse("freshpointapp/upload.html"))
+        #if file is too large, return
+        if csv_file.multiple_chunks():
+            messages.error(request,"Uploaded file is too big (%.2f MB)." % (csv_file.size/(1000*1000),))
+            return HttpResponseRedirect(reverse("freshpointapp/upload.html"))
+
+        #file_data = csv_file.read().decode("Windows 1250")        
+        file_data = csv_file.read().decode("utf-8")
+        lines = file_data.split("\n")
+        #loop over the lines and save them in db. If error , store as string and then display
+        for line in lines:                        
+            fields = line.split(",")
+            data_dict = {}
+            data_dict["ID"] = fields[0]
+            data_dict["ProductID"] = fields[1]
+            data_dict["Size"] = fields[2]
+            data_dict["Produce"] = fields[3]
+            try:
+                form = FoodClass(data_dict)
+                if form.is_valid():
+                    form.save()                    
+                else:
+                    logging.getLogger("error_logger").error(form.errors.as_json())                                                
+            except Exception as e:
+                logging.getLogger("error_logger").error(repr(e))                    
+                pass
+
+    except Exception as e:
+        logging.getLogger("error_logger").error("Unable to upload file. "+repr(e))
+        messages.error(request,"Unable to upload file. "+repr(e))
+
+    return redirect('/upload_csv')

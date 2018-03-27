@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^index/$', views.index, name='index'),
     url(r'^about/$', views.about, name='about'),
     url(r'^upload/$', views.upload, name='upload'),
+    url(r'^upload_csv/$', views.upload_csv, name='upload_csv'),
     url(r'^$', auth_views.login, {'template_name': 'freshpointapp/login.html'}, name='login'),
     url(r'^success/$', views.success, name='success'),
     url(r'^index/$', views.index, name='index'),
