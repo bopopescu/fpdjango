@@ -4,7 +4,7 @@ from django.db import models
 
 
 class UFoodDB(models.Model):
-    UserID = models.CharField(max_length=100)
+    ID = models.CharField(max_length=100, primary_key=True)
     ProductID = models.TextField(max_length=200)
     Size = models.TextField(max_length=500)
     Produce = models.TextField(max_length=500)

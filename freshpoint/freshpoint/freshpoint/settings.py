@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'freshpoint.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'freshpoints',
+        'NAME': 'freshpoint',
         'USER': 'django',
         'PASSWORD': 'aggieprid3',
         'HOST': 'localhost',
