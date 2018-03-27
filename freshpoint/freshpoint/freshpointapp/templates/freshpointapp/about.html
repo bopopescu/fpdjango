@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <title>Dashboard</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+
+
+    <!--load static files-->
+    {% load staticfiles %}
+  <!-- Demo Dependencies -->
+  <!--https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js-->
+  <script src="../../../static/js/jquery.min.js" type="text/javascript"></script>
+  <!--https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js-->
+  <script src="../../../static/js/bootstrap.min.js" type="text/javascript"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+  <!-- keen-analysis@1.2.2 -->
+  <!--https://d26b395fwzu5fz.cloudfront.net/keen-analysis-1.2.2.js-->
+  <script src="../../../static/js/keen-analysis-1.2.2.js" type="text/javascript"></script>
+
+  <!-- keen-dataviz@1.1.3 -->
+  <link href="https://d26b395fwzu5fz.cloudfront.net/keen-dataviz-1.1.3.css" rel="stylesheet" />
+  <!--https://d26b395fwzu5fz.cloudfront.net/keen-dataviz-1.1.3.js-->
+  <script src="../../../static/js/keen-dataviz-1.1.3.js" type="text/javascript"></script>
+
+  <!-- Dashboard -->
+  <link href="../../../static/css/keen-dashboards.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../../../static/js/starter-kit.js"></script>
+
+    {% comment %}
+        styling for elements
+    {% endcomment %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
+
+.title {
+  color: grey;
+  font-size: 18px;
+}
+
+button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+.a {
+  text-decoration: none;
+  font-size: 22px;
+  color: black;
+}
+
+button:hover, a:hover {
+  opacity: 0.7;
+}
+
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  background-color: #008CBA;
+  overflow: hidden;
+  width: 100%;
+  height:0;
+  transition: .5s ease;
+  opacity: 0.9;
+}
+
+.container:hover .overlay {
+  bottom: 0;
+  height: 100%;
+}
+
+.text {
+  color: white;
+  font-size: 14px;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+</style>
+
+</head>
+
+
+<body class="keen-dashboard" style="padding-top: 80px;">
+
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="navbar-brand" href="{% url 'index' %}">Dashboard</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-left">
+          <li><a href="{% url 'index' %}">Home</a></li>
+          <li><a href="{% url 'upload' %}">Upload</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li>
+              {% if user.is_authenticated %}
+                <li style="color: white">Hi, {{ user.get_username }}</li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+
+              {% endif %}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-sm-4">
+        {% comment %}
+            about card for each individual bio
+        {% endcomment %}
+        <div class="card">
+        <div class="container">
+          <img src="https://scontent-iad3-1.xx.fbcdn.net/v/t1.0-9/24296672_10210541212309919_6291827353460882260_n.jpg?oh=6365f9686c713bbb89c287389f749969&oe=5AF28FF8" alt="Steriling" style="width:100%" class="image">
+          <div class="overlay">
+            <div class="text">Sterling mason is a Senior Software Engineering student at NC A&T State University. His goal is to identify problems that businesses face today and foster those problems through the development and innovation of technology in creating service-learning and assistant technologies.</div>
+          </div>
+        </div>
+          <h1>Steriling Mason</h1>
+          <p class="title">Software & Web Developer</p>
+          <p>NC A&T State University</p>
+          <div style="margin: 24px 0;">
+            <a href="https://www.linkedin.com/in/steriling-mason-60815a98/" class="a" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+            <a href="https://www.facebook.com/steriling.masonaire"  class="a" target="_blank"><i class="fa fa-facebook-square"></i></a>
+         </div>
+        </div>
+        <br>
+      </div>
+
+      <div class="col-sm-4">
+        {% comment %}
+            about card for each individual bio
+        {% endcomment %}
+        <div class="card">
+        <div class="container">
+          <img src="https://scontent-iad3-1.xx.fbcdn.net/v/t1.0-9/24296672_10210541212309919_6291827353460882260_n.jpg?oh=6365f9686c713bbb89c287389f749969&oe=5AF28FF8" alt="Steriling" style="width:100%" class="image">
+          <div class="overlay">
+            <div class="text">Sterling mason is a Senior Software Engineering student at NC A&T State University. His goal is to identify problems that businesses face today and foster those problems through the development and innovation of technology in creating service-learning and assistant technologies.</div>
+          </div>
+        </div>
+          <h1>Steriling Mason</h1>
+          <p class="title">Software & Web Developer</p>
+          <p>NC A&T State University</p>
+          <div style="margin: 24px 0;">
+            <a href="https://www.linkedin.com/in/steriling-mason-60815a98/" class="a" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+            <a href="https://www.facebook.com/steriling.masonaire" class="a" target="_blank"><i class="fa fa-facebook-square"></i></a>
+         </div>
+        </div>
+        <br>
+      </div>
+
+      <div class="col-sm-4">
+        {% comment %}
+            about card for each individual bio
+        {% endcomment %}
+        <div class="card">
+        <div class="container">
+          <img src="https://scontent-iad3-1.xx.fbcdn.net/v/t1.0-9/24296672_10210541212309919_6291827353460882260_n.jpg?oh=6365f9686c713bbb89c287389f749969&oe=5AF28FF8" alt="Steriling" style="width:100%" class="image">
+          <div class="overlay">
+            <div class="text">Sterling mason is a Senior Software Engineering student at NC A&T State University. His goal is to identify problems that businesses face today and foster those problems through the development and innovation of technology in creating service-learning and assistant technologies.</div>
+          </div>
+        </div>
+          <h1>Steriling Mason</h1>
+          <p class="title">Software & Web Developer</p>
+          <p>NC A&T State University</p>
+          <div style="margin: 24px 0;">
+            <a href="https://www.linkedin.com/in/steriling-mason-60815a98/" class="a" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+            <a href="https://www.facebook.com/steriling.masonaire" class="a" target="_blank"><i class="fa fa-facebook-square"></i></a>
+         </div>
+        </div>
+        <br>
+      </div>
+
+    </div>
+    <hr>
+
+  </div>
+
+ <!-- Project Analytics -->
+  <script type="text/javascript" src="../../../static/js/keen-analytics.js"></script>
+</body>
+</html>

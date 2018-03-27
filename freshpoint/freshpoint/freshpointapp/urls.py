@@ -8,8 +8,9 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     # url(r'^$', views.intro, name='intro'),
-    url(r'^index.html/$', views.index, name='index'),
-    url(r'^upload.html/$', views.upload, name='upload'),
+    url(r'^index/$', views.index, name='index'),
+    url(r'^about/$', views.about, name='about'),
+    url(r'^upload/$', views.upload, name='upload'),
     url(r'^$', auth_views.login, {'template_name': 'freshpointapp/login.html'}, name='login'),
     url(r'^success/$', views.success, name='success'),
     url(r'^index/$', views.index, name='index'),

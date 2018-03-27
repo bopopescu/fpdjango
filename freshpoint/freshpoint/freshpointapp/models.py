@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class UFoodDB(models.Model):
     UserID = models.CharField(max_length=100)
     ProductID = models.TextField(max_length=200)

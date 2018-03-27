@@ -38,14 +38,22 @@
         <a class="navbar-brand" href="../">
           <span class="glyphicon glyphicon-chevron-left"></span>
         </a>
-        <a class="navbar-brand" href="./">Sidebar Dashboard</a>
+        <a class="navbar-brand" href="{% url 'index' %}">Dashboard</a>
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-left">
-          <li><a href="http://127.0.0.1:8000/index.html/">Home</a></li>
-          <li><a href="http://127.0.0.1:8000/upload.html/">Upload</a></li>
-          <li><a href="https://github.com/keenlabs/dashboards/tree/gh-pages/layouts/hero-sidebar">Source</a></li>
-          <li><a href="https://groups.google.com/forum/#!forum/keen-io-devs">Community</a></li><li><a href="http://stackoverflow.com/questions/tagged/keen-io?sort=newest&pageSize=15">Technical Support</a></li>
+          <li><a href="{% url 'index' %}">Home</a></li>
+          <li><a href="{% url 'upload' %}">Upload</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li>
+              {% if user.is_authenticated %}
+                <li style="color: white">Hi, {{ user.get_username }}</li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+
+              {% endif %}
+          </li>
         </ul>
       </div>
     </div>

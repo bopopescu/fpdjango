@@ -1,11 +1,11 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, render_to_response, redirect
-from django.contrib import auth
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic import View
-from .forms import UserForm, FoodClass
-from django.core.checks.security import csrf
+from .forms import UserForm
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_control
 
 
 class UserFormView(View):
@@ -40,47 +40,6 @@ class UserFormView(View):
         # if user didn't login, redirect to login
         return render(request, self.template_name, {'form': form})
 
-def upload_csv(request):
-    data = {}
-    if "GET" == request.method:
-        return render(request, "upload.html", data)
-    # if not GET, then proceed
-    try:
-        csv_file = request.FILES["csv_file"]
-        if not csv_file.name.endswith('.csv'):
-            messages.error(request,'File is not CSV type')
-            return HttpResponseRedirect(reverse("upload"))
-        #if file is too large, return
-        if csv_file.multiple_chunks():
-            messages.error(request,"Uploaded file is too big (%.2f MB)." % (csv_file.size/(1000*1000),))
-            return HttpResponseRedirect(reverse("upload"))
-
-        file_data = csv_file.read().decode("utf-8")
-
-        lines = file_data.split('\n')
-        #loop over the lines and save them in db. If error , store as string and then display
-        for line in lines:
-            fields = line.split(",")
-            data_dict = {}
-            data_dict["UserID"] = fields[0]
-            data_dict["ProductID"] = fields[1]
-            data_dict["Size"] = fields[2]
-            data_dict["Produce"] = fields[3]
-            try:
-                form = EventsForm(data_dict)
-                if form.is_valid():
-                    form.save()
-                else:
-                    logging.getLogger("error_logger").error(form.errors.as_json())
-            except Exception as e:
-                logging.getLogger("error_logger").error(repr(e))
-                pass
-
-    except Exception as e:
-        logging.getLogger("error_logger").error("Unable to upload file. "+repr(e))
-        messages.error(request,"Unable to upload file. "+repr(e))
-    
-    return HttpResponseRedirect(reverse("upload"))
 
 def intro(request):
     introduce = loader.get_template('freshpointapp/intro.html')
@@ -88,6 +47,14 @@ def intro(request):
 
     }
     return HttpResponse(introduce.render(context, request))
+
+
+def about(request):
+    about = loader.get_template('freshpointapp/about.html')
+    context = {
+
+    }
+    return HttpResponse(about.render(context, request))
 
 
 def index(request):
@@ -111,7 +78,7 @@ def logout(request):
     context = {
 
     }
-    return HttpResponse(logout.render(context, request))
+    return redirect('login')
 
 
 def success(request):
