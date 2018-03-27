@@ -1,9 +1,10 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, render_to_response, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import login, logout
 from django.views.generic import View
 from .forms import UserForm
+from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 
@@ -66,18 +67,11 @@ def index(request):
 
 
 def login(request):
-    login = loader.get_template('freshpointapp/login.html')
-    context = {
-
-    }
-    return HttpResponse(login.render(context, request))
+    return redirect('login')
 
 
-def logout(request):
-    logout = loader.get_template('freshpointapp/logout.html')
-    context = {
-
-    }
+def logout_view(request):
+    logout(request)
     return redirect('login')
 
 

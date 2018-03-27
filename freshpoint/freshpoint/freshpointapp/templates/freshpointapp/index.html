@@ -27,6 +27,12 @@
   <link href="../../../static/css/keen-dashboards.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="../../../static/js/starter-kit.js"></script>
 
+    {% comment %}Scripts for placeholders{% endcomment %}
+    <script src="../../../static/js/holder.min.js" type="text/javascript"></script>
+    <script>
+        Holder.add_theme("white", { background:"#fff", foreground:"#a7a7a7", size:10 });
+    </script>
+
   <!--load static files-->
 </head>
 <body class="keen-dashboard" style="padding-top: 80px;">
@@ -43,7 +49,7 @@
         <a class="navbar-brand" href="../">
           <span class="glyphicon glyphicon-chevron-left"></span>
         </a>
-        <a class="navbar-brand" href="{% url 'index' %}">Dashboard</a>
+        <a class="navbar-brand" href="./">Dashboard</a>
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-left">
@@ -52,11 +58,8 @@
           <li><a href="{% url 'about' %}">About</a></li>
           <li>
               {% if user.is_authenticated %}
-                <li style="color: white">Hi, {{ user.get_username }}</li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
-                {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-
+                  <label style="color: white;">Hi, {{ user.get_username }}</label>
+                  <li><a href="{% url 'logout' %}" style="color: #00aeef">Logout</a></li>
               {% endif %}
           </li>
         </ul>
@@ -67,43 +70,294 @@
   <div class="container-fluid">
     <div class="row">
 
-      <div class="col-sm-8">
-        <div id="chart-01"></div>
-        <!-- <img src="../../../static/img/f_p_heatmapV1.png"> -->
-	<br>
+      <div class="col-sm-6">
+        <div class="chart-wrapper">
+          <div class="chart-title">
+            Last report (past 24 hours)
+          </div>
+          <div class="chart-stage">
+
+            <!-- ________________________________________________________________ -->
+            <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+
+
+          </div>
+
+        </div>
       </div>
 
-      <div class="col-sm-4">
-        <div id="chart-02"></div>
-        <br>
+      <div class="col-sm-6">
+        <div class="chart-wrapper">
+          <div class="chart-title">
+            Last Report (past 5 days)
+          </div>
+          <div class="chart-stage">
+
+            <!-- ________________________________________________________________ -->
+            <div id="chartContainer3" style="height: 370px; width: 100%;"></div>
+
+
+          </div>
+          <div class="chart-notes">
+
+          </div>
+        </div>
       </div>
 
     </div>
-
-
     <div class="row">
 
-      <div class="col-sm-4">
-        <div id="chart-03"></div>
-        <br>
-      </div>
+      <div class="col-sm-12">
+        <div class="chart-wrapper">
+          <div class="chart-title">
+            Latest Report
+          </div>
+          <div class="chart-stage">
 
-      <div class="col-sm-4">
-        <div id="chart-04"></div>
-        <br>
-      </div>
+             <!-- ________________________________________________________________ -->
+             <div id="chartContainer2" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
 
-      <div class="col-sm-4">
-        <div id="chart-05"></div>
-        <br>
+          </div>
+          <div class="chart-notes">
+
+          </div>
+        </div>
       </div>
 
     </div>
-    <hr>
+
+  </div>
+  <div class="container-fluid">
 
   </div>
 
+
+
+
+
+<!-- ______________________________________ -->
+<!-- for pie chart - top left -->
+<script>
+  function start(){
+    chartP();
+    chartA();
+    chartHeat();
+  }
+
+  window.onload = start;
+
+{% comment %}  pie chart analytics{% endcomment %}
+function chartP() {
+
+var chart1 = new CanvasJS.Chart("chartContainer", {
+  theme: "light2", // "light1", "light2", "dark1", "dark2"
+  exportEnabled: true,
+  animationEnabled: true,
+  title: {
+    text: "Retail food dollar: Fresh Fruits in 2018"
+  },
+  data: [{
+    type: "pie",
+    startAngle: 25,
+    toolTipContent: "<b>{label}</b>: {y}%",
+    showInLegend: "true",
+    legendText: "{label}",
+    indexLabelFontSize: 16,
+    indexLabel: "{label} - {y}%",
+    dataPoints: [
+      { y: 51.08, label: "Farm & Agribusiness" },
+      { y: 27.34, label: "Wholesale trade" },
+      { y: 10.62, label: "Retail trade" },
+      { y: 5.02, label: "Energy" },
+      { y: 4.07, label: "Transportation" },
+      { y: 1.22, label: "Finance and Insurance" },
+      { y: 0.44, label: "Others" }
+    ]
+  }]
+});
+chart1.render();
+
+}
+/*end______________________________________________*/
+
+
+{% comment %}Area trending chart analytics{% endcomment %}
+function chartA() {
+
+var chart2 = new CanvasJS.Chart("chartContainer2", {
+  animationEnabled: true,
+  title:{
+    text: "Monthly Expenses, 2016-17"
+  },
+  axisY :{
+    includeZero: false,
+    prefix: "$"
+  },
+  toolTip: {
+    shared: true
+  },
+  legend: {
+    fontSize: 13
+  },
+  data: [{
+    type: "splineArea",
+    showInLegend: true,
+    name: "Farm & Agribusiness",
+    yValueFormatString: "$#,##0",
+    xValueFormatString: "MMM YYYY",
+    dataPoints: [
+      { x: new Date(2016, 2), y: 30000 },
+      { x: new Date(2016, 3), y: 35000 },
+      { x: new Date(2016, 4), y: 30000 },
+      { x: new Date(2016, 5), y: 30400 },
+      { x: new Date(2016, 6), y: 20900 },
+      { x: new Date(2016, 7), y: 31000 },
+      { x: new Date(2016, 8), y: 30200 },
+      { x: new Date(2016, 9), y: 30000 },
+      { x: new Date(2016, 10), y: 33000 },
+      { x: new Date(2016, 11), y: 38000 },
+      { x: new Date(2017, 0),  y: 38900 },
+      { x: new Date(2017, 1),  y: 39000 }
+    ]
+  },
+  {
+    type: "splineArea",
+    showInLegend: true,
+    name: "Process foods",
+    yValueFormatString: "$#,##0",
+    dataPoints: [
+      { x: new Date(2016, 2), y: 20100 },
+      { x: new Date(2016, 3), y: 16000 },
+      { x: new Date(2016, 4), y: 14000 },
+      { x: new Date(2016, 5), y: 18000 },
+      { x: new Date(2016, 6), y: 18000 },
+      { x: new Date(2016, 7), y: 21000 },
+      { x: new Date(2016, 8), y: 22000 },
+      { x: new Date(2016, 9), y: 25000 },
+      { x: new Date(2016, 10), y: 23000 },
+      { x: new Date(2016, 11), y: 25000 },
+      { x: new Date(2017, 0), y: 26000 },
+      { x: new Date(2017, 1), y: 25000 }
+    ]
+  },
+  {
+    type: "splineArea",
+    showInLegend: true,
+    name: "Food Waste",
+    yValueFormatString: "$#,##0",
+    dataPoints: [
+      { x: new Date(2016, 2), y: 10100 },
+      { x: new Date(2016, 3), y: 6000 },
+      { x: new Date(2016, 4), y: 3400 },
+      { x: new Date(2016, 5), y: 4000 },
+      { x: new Date(2016, 6), y: 9000 },
+      { x: new Date(2016, 7), y: 3900 },
+      { x: new Date(2016, 8), y: 4200 },
+      { x: new Date(2016, 9), y: 5000 },
+      { x: new Date(2016, 10), y: 14300 },
+      { x: new Date(2016, 11), y: 12300 },
+      { x: new Date(2017, 0), y: 8300 },
+      { x: new Date(2017, 1), y: 6300 }
+    ]
+  },
+  {
+    type: "splineArea",
+    showInLegend: true,
+    yValueFormatString: "$#,##0",
+    name: "Maintenance",
+    dataPoints: [
+      { x: new Date(2016, 2), y: 1700 },
+      { x: new Date(2016, 3), y: 2600 },
+      { x: new Date(2016, 4), y: 1000 },
+      { x: new Date(2016, 5), y: 1400 },
+      { x: new Date(2016, 6), y: 900 },
+      { x: new Date(2016, 7), y: 1000 },
+      { x: new Date(2016, 8), y: 1200 },
+      { x: new Date(2016, 9), y: 5000 },
+      { x: new Date(2016, 10), y: 1300 },
+      { x: new Date(2016, 11), y: 2300 },
+      { x: new Date(2017, 0), y: 2800 },
+      { x: new Date(2017, 1), y: 1300 }
+    ]
+  }]
+});
+chart2.render();
+
+}
+/*end______________________________________________*/
+
+
+{% comment %}heat map chart analytics{% endcomment %}
+function chartHeat() {
+
+var chart = new CanvasJS.Chart("chartContainer3", {
+  animationEnabled: true,
+  theme: "light2", //"light1", "dark1", "dark2"
+  title:{
+    text: "Division of Products Bought in 2nd Quarter"
+  },
+  axisY:{
+    interval: 10,
+    suffix: "%"
+  },
+  toolTip:{
+    shared: true
+  },
+  data:[{
+    type: "stackedBar100",
+    toolTipContent: "{label}<br><b>{name}:</b> {y} (#percent%)",
+    showInLegend: true,
+    name: "April",
+    dataPoints: [
+      { y: 600, label: "Apples" },
+      { y: 400, label: "Asparagus" },
+      { y: 120, label: "Broccoli" },
+      { y: 250, label: "Oranges" },
+      { y: 120, label: "Carrots" },
+      { y: 374, label: "Eggs" },
+      { y: 350, label: "Chicken" }
+    ]
+    },
+    {
+      type: "stackedBar100",
+      toolTipContent: "<b>{name}:</b> {y} (#percent%)",
+      showInLegend: true,
+      name: "May",
+      dataPoints: [
+        { y: 400, label: "Apples" },
+        { y: 500, label: "Asparagus" },
+        { y: 220, label: "Broccoli" },
+        { y: 350, label: "Oranges" },
+        { y: 220, label: "Carrots" },
+        { y: 474, label: "Eggs" },
+        { y: 450, label: "Chicken" }
+      ]
+    },
+    {
+      type: "stackedBar100",
+      toolTipContent: "<b>{name}:</b> {y} (#percent%)",
+      showInLegend: true,
+      name: "June",
+      dataPoints: [
+        { y: 300, label: "Apples" },
+        { y: 610, label: "Asparagus" },
+        { y: 215, label: "Broccoli" },
+        { y: 221, label: "Oranges" },
+        { y: 75, label: "Carrots" },
+        { y: 310, label: "Eggs" },
+        { y: 340, label: "Chicken" }
+      ]
+  }]
+});
+chart.render();
+
+}
+
+
+</script>
+
   <!-- Project Analytics -->
-  <script type="text/javascript" src="../../../static/js/keen-analytics.js"></script>
+<script type="text/javascript" src="../../../static/js/keen-analytics.js"></script>
+<script src="../../../static/js/canvasjs.min.js"></script>
 </body>
 </html>
