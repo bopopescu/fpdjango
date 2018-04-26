@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^$', auth_views.login, {'template_name': 'freshpointapp/login.html'}, name='login'),
     url(r'^success/$', views.success, name='success'),
     url(r'^index/$', views.index, name='index'),
-    url(r'^logout/$', views.logout, name='logout'),
+    url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^register/$', views.UserFormView.as_view(), name='register'),
 ]
 
