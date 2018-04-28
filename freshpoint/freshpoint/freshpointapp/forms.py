@@ -15,4 +15,5 @@ class FoodClass(forms.ModelForm):
     
     class Meta:
         model = UFoodDB
-        fields = ['ID', 'ProductID', 'Size', 'Produce']
+
+        fields = ['Description', 'Cases', 'Hunmiles', 'Twohunmiles', 'Fivhunmiles', 'CsvMonth', 'CsvYear', 'Local']
