@@ -60,6 +60,9 @@
               {% if user.is_authenticated %}
                   <label style="color: white;">Hi, {{ user.get_username }}</label>
                   <li><a href="{% url 'logout' %}" style="color: #00aeef">Logout</a></li>
+              {% else %}
+                  <meta http-equiv="REFRESH" content="0;url={% url 'login' %}">
+                  {% include 'freshpointapp/login.html' %}
               {% endif %}
           </li>
         </ul>
@@ -78,7 +81,10 @@
           <div class="chart-stage">
 
             <!-- ________________________________________________________________ -->
-            <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+            <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;">
+                <img id="img" src="../../../static/img/f_p_heatmapV1.png" style="width: inherit; height: inherit">
+            </div>
+              <a href="../../../static/img/f_p_heatmapV1.png" download="f_p_heatmapV1.png">Download</a>
 
 
           </div>
@@ -94,7 +100,10 @@
           <div class="chart-stage">
 
             <!-- ________________________________________________________________ -->
-            <div id="chartContainer3" style="height: 370px; width: 100%;"></div>
+            <div id="chartContainer3" style="height: 370px; width: 100%;">
+                <img id="img" src="../../../static/img/f_p_goodmapV1.png" style="width: inherit; height: inherit">
+            </div>
+              <a href="../../../static/img/f_p_goodmapV1.png" download="f_p_goodmapV1.png">Download</a>
 
 
           </div>
@@ -115,7 +124,10 @@
           <div class="chart-stage">
 
              <!-- ________________________________________________________________ -->
-             <div id="chartContainer2" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+             <div id="chartContainer2" style="height: 370px; max-width: 920px; margin: 0px auto;">
+                 <img id="img" src="../../../static/img/fp_wordcloudV1.png" style="width: inherit; height: inherit">
+             </div>
+              <a href="../../../static/img/fp_wordcloudV1.png" download="fp_wordcloudV1.png">Download</a>
 
           </div>
           <div class="chart-notes">
@@ -139,12 +151,15 @@
 <!-- for pie chart - top left -->
 <script>
   function start(){
+{% comment %}
     chartP();
     chartA();
     chartHeat();
+{% endcomment %}
   }
 
   window.onload = start;
+
 
 {% comment %}  pie chart analytics{% endcomment %}
 function chartP() {
@@ -152,8 +167,7 @@ function chartP() {
 var chart1 = new CanvasJS.Chart("chartContainer", {
   theme: "light2", // "light1", "light2", "dark1", "dark2"
   exportEnabled: true,
-  animationEnabled: true,
-  title: {
+  {% comment %}title: {
     text: "Retail food dollar: Fresh Fruits in 2018"
   },
   data: [{
@@ -173,10 +187,10 @@ var chart1 = new CanvasJS.Chart("chartContainer", {
       { y: 1.22, label: "Finance and Insurance" },
       { y: 0.44, label: "Others" }
     ]
-  }]
+  }]{% endcomment %}
 });
-chart1.render();
 
+chart1.render();
 }
 /*end______________________________________________*/
 
@@ -186,6 +200,7 @@ function chartA() {
 
 var chart2 = new CanvasJS.Chart("chartContainer2", {
   animationEnabled: true,
+    exportEnabled: true,
   title:{
     text: "Monthly Expenses, 2016-17"
   },
@@ -292,6 +307,7 @@ function chartHeat() {
 
 var chart = new CanvasJS.Chart("chartContainer3", {
   animationEnabled: true,
+    exportEnabled: true,
   theme: "light2", //"light1", "dark1", "dark2"
   title:{
     text: "Division of Products Bought in 2nd Quarter"

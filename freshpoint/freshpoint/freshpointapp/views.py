@@ -1,9 +1,11 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, render_to_response, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import login, logout
+from django.contrib.auth import authenticate
 from django.views.generic import View
 from .forms import UserForm, FoodClass
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 from matplotlib.colors import ListedColormap
@@ -15,6 +17,8 @@ import re
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+
+from django.contrib.auth.models import User
 
 
 class UserFormView(View):
@@ -50,6 +54,13 @@ class UserFormView(View):
         return render(request, self.template_name, {'form': form})
 
 
+def clean_password1(self):
+    password = self.cleaned_data.get(User.password)
+    if len(password) < 8:
+        messages.info(self, 'Your password needs to be at least 8 characters long')
+    return super(UserFormView, self).clean_password1()
+
+
 def intro(request):
     introduce = loader.get_template('freshpointapp/intro.html')
     context = {
@@ -71,6 +82,9 @@ def index(request):
     context = {
 
     }
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('/')
     return HttpResponse(mainpage.render(context, request))
 
 
@@ -82,12 +96,14 @@ def login(request):
     return HttpResponse(login.render(context, request))
 
 
-def logout(request):
-    logout = loader.get_template('freshpointapp/logout.html')
+def logout_view(request):
+    logOut = loader.get_template('freshpointapp/logout.html')
     context = {
 
     }
-    return redirect('login')
+
+    logout(request)
+    return redirect(logOut)
 
 
 def success(request):
@@ -115,11 +131,12 @@ def upload_csv(request):
     try:
         csv_file = request.FILES["csv_file"]
         if not csv_file.name.endswith('.csv'):
-            messages.error(request,'File is not CSV type')
+            messages.error(request, 'File is not CSV type')
             return HttpResponseRedirect(reverse("freshpointapp/upload.html"))
-        #if file is too large, return
+
+        # if file is too large, return
         if csv_file.multiple_chunks():
-            messages.error(request,"Uploaded file is too big (%.2f MB)." % (csv_file.size/(1000*1000),))
+            messages.error(request, "Uploaded file is too big (%.2f MB)." % (csv_file.size/(1000*1000),))
             return HttpResponseRedirect(reverse("freshpointapp/upload.html"))
 
         #Variable declaration for FVT
@@ -265,7 +282,7 @@ def upload_csv(request):
 
     except Exception as e:
         logging.getLogger("error_logger").error("Unable to upload file. "+repr(e))
-        messages.error(request,"Unable to upload file. "+repr(e))
+        messages.error(request, "Unable to upload file. "+repr(e))
 
 
     return redirect('/upload_csv')
