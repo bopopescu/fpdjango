@@ -124,13 +124,43 @@ def upload_csv(request):
 
         #Variable declaration for FVT
         Saleshist = []
-        fvt_list = [(19,'GREEN ONIONS',0,0,0,0,0,1,1,1,1,0,0,0,1017596),(12,'CHERRY TOMATOES',0,0,0,0,0,0,1,1,1,1,0,0,1106274),(50,'SPRITE MELONS',0,0,0,0,0,0,1,1,0,0,0,0,1197281),(7,'BROCCOLI',0,0,0,1,1,0,0,0,0,0,0,0,1201376),(24,'INDIA CORN ',0,0,0,0,0,0,0,0,1,1,1,0,1201958),(49,'SPINACH',1,1,1,1,1,0,0,0,0,1,1,1,1250955),(32,'OKRA',0,0,0,0,0,0,1,1,0,0,0,0,1295483),(54,'SWEET POTATOES',1,1,1,1,1,1,1,1,1,1,1,1,1583974),(45,'ROMAINE',0,0,0,1,1,0,0,0,0,1,1,0,1657272),(10,'CANTALOUPES',0,0,0,0,0,0,1,1,0,0,0,0,1695538),(42,'PUMPKINS',0,0,0,0,0,0,0,0,1,1,0,0,1840745),(31,'NECTARINES',0,0,0,0,0,0,1,1,0,0,0,0,1893549),(26,'LETTUCE',0,0,0,1,1,0,0,0,0,1,1,1,1910007),(16,'EGGPLANT',0,0,0,0,0,1,1,1,0,0,0,0,1921959),(44,'RASPBERRIES',0,0,0,0,0,1,0,0,1,1,0,0,1925689),(23,'HONEYDEW MELONS',0,0,0,0,0,0,1,1,0,0,0,0,2035329),(15,'CUCUMBERS',0,0,0,0,0,1,1,1,1,1,1,0,2125830),(2,'ASPARAGUS',0,0,1,1,0,0,0,0,0,0,0,0,2289502),(39,'PERSIMMONS',0,0,0,0,0,0,0,0,1,1,0,0,2361346),(4,'BLACKBERRIES',0,0,0,0,0,1,1,0,1,0,0,0,2497648),(1,'APPLES ',1,1,0,0,0,0,0,1,1,1,1,1,2557119),(21,'GREENS',0,0,1,1,1,1,1,1,1,1,1,1,2621525),(53,'SWEET CORN',0,0,0,0,0,1,1,1,1,0,0,0,2834656),(27,'MUSCADINE GRAPES',0,0,0,0,0,0,0,1,1,1,0,0,2845392),(43,'RADISHES',0,0,0,1,1,1,0,0,0,1,1,0,2946537),(11,'CARROTS',1,0,0,0,0,1,1,0,0,0,0,1,2953655),(29,'MUSTARD GREENS',0,0,0,1,1,1,0,0,1,1,1,1,2971863),(57,'WATERMELON',0,0,0,0,0,0,1,1,0,0,0,0,2979790),(14,'COLLARDS',1,1,1,1,1,1,1,1,1,1,1,1,3002007),(55,'TOMATOES',0,0,0,0,0,1,1,1,1,1,0,0,3013774),(34,'PEACHES',0,0,0,0,0,1,1,1,1,0,0,0,3058103),(20,'GREENS PEAS',0,0,0,0,1,0,0,0,0,0,0,0,3304894),(5,'BLUEBERRIES',0,0,0,0,1,1,1,0,0,0,0,0,3412757),(13,'CHRISTMAS TREES',0,0,0,0,0,0,0,0,0,0,1,1,3442780),(3,'BEETS',0,0,0,0,1,1,0,0,0,1,1,1,3509996),(46,'SNAP BEANS',0,0,0,0,0,1,1,1,1,0,0,0,3555013),(35,'PEANUTS',1,1,1,1,1,1,1,1,1,1,1,1,3658846),(25,'KALE',0,0,0,0,1,1,0,0,0,1,1,1,3676040),(30,'NAPA',0,0,0,0,1,1,0,0,0,1,1,0,3754851),(9,'CABBAGE',0,0,0,0,1,1,1,1,1,1,1,1,3805072),(6,'BOKCHOY',0,0,0,0,1,1,0,0,0,1,1,1,3810851),(56,'TURNIPS',0,0,0,1,1,1,0,0,0,1,1,1,3838576),(51,'SQUASH-YELLOW',0,0,0,0,1,1,1,1,1,0,0,0,3852220),(8,'BUTTERBEANS',0,0,0,0,0,0,1,1,0,0,0,0,3882505),(41,'POTATOES',0,0,0,0,0,1,1,0,0,0,0,0,3898135),(58,'ZUCCHINI',0,0,0,0,1,1,1,1,1,0,0,0,3981754),(59,'TOMATILLO',0,0,0,0,0,1,1,1,1,1,0,0,3981755),(28,'MUSHROOMS',0,0,1,1,1,1,0,0,1,1,1,0,4067311),(37,'PECANS',0,0,0,0,0,0,0,0,0,0,1,1,4127838),(36,'PEARS',0,0,0,0,0,0,0,1,1,1,0,0,4236146),(17,'FIGS',0,0,0,0,0,0,1,1,1,1,1,1,4335992),(40,'PLUMS',0,0,0,0,0,1,1,1,0,0,0,0,4487531),(52,'STRAWBERRIES',0,0,0,1,1,1,0,0,0,0,0,0,4494988),(48,'SNOW PEAS TIPS',0,0,0,1,1,0,0,0,0,1,1,0,4496223),(38,'PEPPERS',0,0,0,0,0,1,1,1,0,0,0,0,4606080),(33,'ONIONS ',0,0,0,0,0,1,1,0,0,0,0,0,4672570),(47,'SNOW PEAS',0,0,0,0,1,1,0,0,0,1,1,0,4852257),(22,'HERBS',1,1,1,1,1,1,1,1,1,1,1,1,4902192),(18,'GARLIC',0,0,0,0,0,0,1,1,0,0,0,0,4921692)]
+        fvt_list = [(19,'GREEN ONIONS',0,0,0,0,0,1,1,1,1,0,0,0,1017596),(12,'CHERRY TOMATOES',0,0,0,0,0,0,1,1,1,1,0,0,1106274),(50,'SPRITE MELONS',0,0,0,0,0,0,1,1,0,0,0,0,1197281),(7,'BROCCOLI',0,0,0,1,1,0,0,0,0,0,0,0,1201376),(24,'INDIA CORN ',0,0,0,0,0,0,0,0,1,1,1,0,1201958),(49,'SPINACH',1,1,1,1,1,0,0,0,0,1,1,1,1250955),(32,'OKRA',0,0,0,0,0,0,1,1,0,0,0,0,1295483),(54,'SWEET POTATOES',1,1,1,1,1,1,1,1,1,1,1,1,1583974),(45,'ROMAINE',0,0,0,1,1,0,0,0,0,1,1,0,1657272),(10,'CANTALOUPE',0,0,0,0,0,0,1,1,0,0,0,0,1695538),(42,'PUMPKINS',0,0,0,0,0,0,0,0,1,1,0,0,1840745),(31,'NECTARINE',0,0,0,0,0,0,1,1,0,0,0,0,1893549),(26,'LETTUCE',0,0,0,1,1,0,0,0,0,1,1,1,1910007),(16,'EGGPLANT',0,0,0,0,0,1,1,1,0,0,0,0,1921959),(44,'RASPBERRIES',0,0,0,0,0,1,0,0,1,1,0,0,1925689),(23,'HONEYDEW',0,0,0,0,0,0,1,1,0,0,0,0,2035329),(15,'CUCUMBER',0,0,0,0,0,1,1,1,1,1,1,0,2125830),(2,'ASPARAGUS',0,0,1,1,0,0,0,0,0,0,0,0,2289502),(39,'PERSIMMONS',0,0,0,0,0,0,0,0,1,1,0,0,2361346),(4,'BLACKBERRIES',0,0,0,0,0,1,1,0,1,0,0,0,2497648),(1,'APPLE',1,1,0,0,0,0,0,1,1,1,1,1,2557119),(21,'GREENS',0,0,1,1,1,1,1,1,1,1,1,1,2621525),(53,'SWEET CORN',0,0,0,0,0,1,1,1,1,0,0,0,2834656),(27,'MUSCADINE GRAPES',0,0,0,0,0,0,0,1,1,1,0,0,2845392),(43,'RADISH',0,0,0,1,1,1,0,0,0,1,1,0,2946537),(11,'CARROTS',1,0,0,0,0,1,1,0,0,0,0,1,2953655),(29,'MUSTARD GREENS',0,0,0,1,1,1,0,0,1,1,1,1,2971863),(57,'WATERMELON',0,0,0,0,0,0,1,1,0,0,0,0,2979790),(14,'COLLARDS',1,1,1,1,1,1,1,1,1,1,1,1,3002007),(55,'TOMATO',0,0,0,0,0,1,1,1,1,1,0,0,3013774),(34,'PEACH',0,0,0,0,0,1,1,1,1,0,0,0,3058103),(20,'GREENS PEAS',0,0,0,0,1,0,0,0,0,0,0,0,3304894),(5,'BLUEBERRY',0,0,0,0,1,1,1,0,0,0,0,0,3412757),(13,'CHRISTMAS TREES',0,0,0,0,0,0,0,0,0,0,1,1,3442780),(3,'BEETS',0,0,0,0,1,1,0,0,0,1,1,1,3509996),(46,'SNAP BEANS',0,0,0,0,0,1,1,1,1,0,0,0,3555013),(35,'PEANUTS',1,1,1,1,1,1,1,1,1,1,1,1,3658846),(25,'KALE',0,0,0,0,1,1,0,0,0,1,1,1,3676040),(30,'NAPA',0,0,0,0,1,1,0,0,0,1,1,0,3754851),(9,'CABBAGE',0,0,0,0,1,1,1,1,1,1,1,1,3805072),(6,'BOKCHOY',0,0,0,0,1,1,0,0,0,1,1,1,3810851),(56,'TURNIP',0,0,0,1,1,1,0,0,0,1,1,1,3838576),(51,'SQUASH-YELLOW',0,0,0,0,1,1,1,1,1,0,0,0,3852220),(8,'BUTTERBEANS',0,0,0,0,0,0,1,1,0,0,0,0,3882505),(41,'POTATO',0,0,0,0,0,1,1,0,0,0,0,0,3898135),(58,'ZUCCHINI',0,0,0,0,1,1,1,1,1,0,0,0,3981754),(59,'TOMATILLO',0,0,0,0,0,1,1,1,1,1,0,0,3981755),(28,'MUSHROOM',0,0,1,1,1,1,0,0,1,1,1,0,4067311),(37,'PECANS',0,0,0,0,0,0,0,0,0,0,1,1,4127838),(36,'PEARS',0,0,0,0,0,0,0,1,1,1,0,0,4236146),(17,'FIGS',0,0,0,0,0,0,1,1,1,1,1,1,4335992),(40,'PLUMS',0,0,0,0,0,1,1,1,0,0,0,0,4487531),(52,'STRAWBERRY',0,0,0,1,1,1,0,0,0,0,0,0,4494988),(48,'SNOW PEAS TIPS',0,0,0,1,1,0,0,0,0,1,1,0,4496223),(38,'PEPPER',0,0,0,0,0,1,1,1,0,0,0,0,4606080),(33,'ONION',0,0,0,0,0,1,1,0,0,0,0,0,4672570),(47,'SNOW PEAS',0,0,0,0,1,1,0,0,0,1,1,0,4852257),(22,'HERB',1,1,1,1,1,1,1,1,1,1,1,1,4902192),(18,'GARLIC',0,0,0,0,0,0,1,1,0,0,0,0,4921692)]
         fvt_list = sorted(fvt_list, key=lambda fvt: fvt[0])
         #print (fvt_list)
         column_names = ("ID","Food","January","February","March","April","May","June","July","August","September","October","November","December","ProductID")
         month_names = ["Food","January","February","March","April","May","June","July","August","September","October","November","December"]
         fvt_dict = {}
         combo_dict = {}
+
+        def hmFVT2FP(fvtProduct,fvtMonth,fvtAvailability,FreshPoint):
+            inner=0
+            global localCount
+            for fpindex, fprow in FreshPoint.iterrows():
+                fpMonth = fprow['CsvMonth']
+                fpCases = fprow['Cases']
+                fpProduct = fprow['FoodType']
+                #print ('fvtProduct: ', fvtProduct, ' fpProduct: ', fpProduct, '| fpMonth: ', fpMonth, ' fvtMonth: ',
+                #       fvtMonth, '| fpCases: ', fpCases, '| fvtAvailability: ', fvtAvailability,' AKA fvtrow[fvtProduct] : ', fvtrow[fvtProduct], '\n', file=f)
+
+                if fpMonth.lower() == fvtMonth.lower() and fpProduct.lower()==fvtProduct.lower():
+                    inner+=1
+                    if fpCases > 0.0:
+
+                        if fvtAvailability == 0.0:
+                            available.append(2)
+
+                        elif fvtAvailability == 1.0:
+                            available.append(3)
+                            #localCount += 1 #keep track of how many are locally purchased may be better to perform act from sql
+                        else:
+                            break
+
+                    elif fvtAvailability == 1.0:
+                        available.append(1)
+                    else:
+                        available.append(0)
+            #print available, '|'
+            return inner
 
         def column(fvt_list, colnum):
             return ([row[colnum] for row in fvt_list])
@@ -168,8 +198,6 @@ def upload_csv(request):
                 re.sub('[^A-Za-z0-9]+', '', fields[7])
                 data_dict["Local"].append(float(fields[7]))
 
-            #data_dict = dict(map(str.strip,x) for x in data_dict.items())
-
         for x in data_dict["Description"]:
             alreadyappended = False
             counter =0
@@ -183,21 +211,14 @@ def upload_csv(request):
                 #print (counter)
                 data_dict["FoodType"].append('')
 
-        #for x in data_dict["Description"], y in data_dict["FoodType"]:
-        #    for z in x:
-        #        print (z," \/ ",y, "\n")
-
         fp_data = pd.DataFrame.from_dict(data_dict)
         fp_data = fp_data.iloc[1:]
         fp_final_df = fp_data[['CsvMonth','Cases','FoodType']]
-        #fp_final_df.to_numeric('Cases')
-        #fp_final_df = fp_final_df.loc[fp_final_df['Local'] == 0]
         fp_final_df = fp_final_df.loc[fp_final_df['FoodType'] != '']
         fp_final_df = fp_final_df.reset_index(drop=True)
         fp_final_df = fp_final_df.groupby(["""CsvMonth""", """FoodType"""]).sum().reset_index()
-        print (fp_final_df.keys())
+        #print (fp_final_df.keys())
         fp_final_df.to_csv('fp_final_df.txt', header=None, sep=' ', mode='w')
-        print ("""still here""")
         #print (fp_final_df)
         """try:
                 form = FoodClass(data_dict)
@@ -209,62 +230,16 @@ def upload_csv(request):
                 logging.getLogger("error_logger").error(repr(e))                    
                 pass"""
 
-        #print(combo_dict)
         sorted_combo_dict = OrderedDict(sorted(combo_dict.items(),key =lambda x:month_names.index(x[0])))
-        #print(sorted_combo_dict)
         FVT = pd.DataFrame(sorted_combo_dict)
-        #print (FVT)
-
-
-        def hmFVT2FP(fvtProduct,fvtMonth,fvtAvailability,FreshPoint):
-            inner=0
-            global localCount
-            for fpindex, fprow in FreshPoint.iterrows():
-                fpMonth = fprow['CsvMonth']
-                fpCases = fprow['Cases']
-                fpProduct = fprow['FoodType']
-                #print ('fvtProduct: ', fvtProduct, ' fpProduct: ', fpProduct, '| fpMonth: ', fpMonth, ' fvtMonth: ',
-                #       fvtMonth, '| fpCases: ', fpCases, '| fvtAvailability: ', fvtAvailability,' AKA fvtrow[fvtProduct] : ', fvtrow[fvtProduct], '\n', file=f)
-
-                if fpMonth.lower() == fvtMonth.lower() and fpProduct.lower()==fvtProduct.lower():
-                    inner+=1
-                    if fpCases > 0.0:
-
-                        if fvtAvailability == 0.0:
-                            available.append(2)
-
-                        elif fvtAvailability == 1.0:
-                            available.append(3)
-                            #localCount += 1 #keep track of how many are locally purchased may be better to perform act from sql
-                        else:
-                            break
-
-                        #available.append(0)
-                    elif fvtAvailability == 1.0:
-                        #print (fprow)
-                        available.append(1)
-                    else:
-                        available.append(0)
-            #print available, '|'
-            return inner
-
-
 
         available=[]
-        fpMonth=''
-        fpProduct=''
-        fvtMonth=''
-        fvtProduct=''
-
         transFVT = FVT.set_index('Food').T
-        #print (transFVT)
         for fvtindex, fvtrow in transFVT.iterrows():
             for product in fvtrow.index:
-                #print ('fvtindex: ',fvtindex,'|product: ', product,'|fvtrow[product]: ', fvtrow[product])
                 fvtProduct = product
                 fvtMonth = fvtindex
                 fvtAvailability = fvtrow[product]
-                #print (fvtProduct, ' / ', fvtMonth, ' / ', fvtAvailability, '\n')
 
                 outer = hmFVT2FP(fvtProduct,fvtMonth,fvtAvailability,fp_final_df)
                 if outer == 0 and fvtAvailability == 0.0:
@@ -272,24 +247,15 @@ def upload_csv(request):
                 if outer == 0 and fvtAvailability == 1.0:
                     available.append(1)
 
-        print (available, '\n')
-        print (len(available))
-
-        #available = [1, 2, 2, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 0, 1, 0, 0, 0, 2, 2, 1, 2, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 1, 0, 2, 0, 2, 0, 0, 0, 1, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0, 3, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 1, 0, 2, 0, 2, 0, 1, 0, 1, 0, 0, 2, 2, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 0, 1, 0, 0, 0, 2, 2, 0, 3, 0, 0, 0, 0, 3, 0, 2, 0, 0, 0, 0, 1, 0, 2, 0, 2, 0, 1, 0, 1, 0, 0, 2, 3, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 1, 0, 3, 0, 0, 1, 3, 0, 0, 1, 0, 1, 0, 0, 1, 2, 2, 0, 0, 1, 0, 1, 1, 3, 0, 3, 0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 1, 1, 1, 0, 0, 1, 3, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 1, 0, 3, 0, 1, 1, 3, 0, 1, 1, 0, 1, 0, 0, 1, 0, 3, 0, 0, 3, 1, 1, 1, 2, 0, 1, 0, 1, 0, 0, 1, 1, 3, 0, 2, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 2, 1, 1, 0, 2, 0, 1, 1, 1, 1, 1, 1, 1, 2, 3, 0, 0, 2, 1, 1, 0, 2, 1, 3, 1, 1, 1, 0, 1, 1, 1, 1, 3, 1, 3, 0, 1, 1, 0, 2, 2, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 2, 1, 0, 0, 2, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 1, 0, 0, 0, 0, 0, 2, 1, 3, 1, 0, 1, 0, 1, 1, 1, 1, 3, 1, 1, 0, 1, 1, 0, 2, 2, 1, 0, 0, 0, 1, 3, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 2, 1, 0, 0, 2, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 2, 1, 1, 0, 1, 0, 1, 2, 2, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 2, 1, 0, 0, 2, 0, 1, 0, 1, 1, 3, 1, 0, 0, 3, 1, 0, 1, 0, 0, 1, 2, 0, 3, 0, 0, 1, 0, 1, 1, 2, 1, 2, 0, 3, 0, 1, 0, 1, 3, 3, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 3, 0, 1, 1, 3, 0, 0, 0, 0, 1, 1, 1, 1, 0, 2, 1, 0, 3, 0, 0, 1, 2, 0, 3, 0, 0, 0, 1, 1, 1, 2, 1, 2, 0, 3, 0, 1, 0, 1, 3, 3, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 3, 0, 1, 1, 3, 0, 0, 0, 0, 1, 0, 0, 1, 2, 2, 1, 0, 1, 0, 0, 1, 2, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 2, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 0, 1, 0, 0, 1, 0, 2]
         hm = pd.DataFrame(np.array(available).reshape(12,59), columns =list(transFVT.columns),index=list(transFVT.index))
-        #print hm
         plt.figure(figsize=(20,7))
-        #   plt.xticks("""fontsize=10, rotation=90""")
+
         plt.ylabel('y',rotation='vertical')
         hmFinish = sns.heatmap(hm,linecolor='black',cmap=ListedColormap(['None', 'yellow', 'green','red']),square=True,linewidth=.5)
         loc, labels = plt.xticks(fontsize=8, rotation=75)
-        #hmFinish.set_yticklabels(labels[::-1], rotation=0)
-        #hmFinish.xaxis.tick_top()
         cbar = hmFinish.collections[0].colorbar
         cbar.set_ticks([.4,1.15,1.85,2.62])
         cbar.set_ticklabels(['Seasonally Unavailable, No Purchase','Seasonally Availalable, No Azonic Purchased','Seasonally Unavailable, Azonic Purchase','Seasonally Avaliable, Azonic Purchase'])
-        #cbar.cbar_kws={"shrink":.50}
-        #hmFinish.set_title('Seasonal Opportunities')
         plt.suptitle('Seasonal Opportunities', x=.45, fontsize=14)
         plt.title("""Comparing what you've done with what you could do, with regards to purchasing locally.""", fontsize=10)
         plt.savefig("""/Users/Dasani/Freshpoint/freshpoint/freshpoint/static/img/W_W_heatmapv2.png""", dpi = 250)
