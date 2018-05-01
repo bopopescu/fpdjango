@@ -11,6 +11,8 @@ from django.views.decorators.cache import cache_control
 from matplotlib.colors import ListedColormap
 from django.contrib import messages
 from collections import OrderedDict
+from django.conf import settings
+import os
 import logging
 import pandas as pd
 import re
@@ -177,8 +179,8 @@ def upload_csv(request):
                             localavailable.append(1)
 
         def setAzonicHeatmap(available, transFVT):
-            print (available)
-            print (len(available))
+            #print (available)
+            #print (len(available))
             hm = pd.DataFrame(np.array(available).reshape(12,59), columns =list(transFVT.columns),index=list(transFVT.index))
             plt.figure(figsize=(20,7))
 
@@ -190,13 +192,13 @@ def upload_csv(request):
             cbar.set_ticklabels(['Seasonally Unavailable, No Purchase','Seasonally Availalable, No Azonic Purchased','Seasonally Unavailable, Azonic Purchase','Seasonally Avaliable, Azonic Purchase'])
             plt.suptitle('Seasonal Opportunities', x=.45, fontsize=14)
             plt.title("""Comparing what you've done with what you could do, with regards to purchasing locally.""", fontsize=10)
-            print("before savefig")
-            plt.savefig("""/Users/Dasani/Freshpoint/freshpoint/freshpoint/static/img/W_W_heatmapv2.png""", dpi = 250)
+            #print("before savefig")
+            plt.savefig(os.path.join(settings.BASE_DIR, 'static/img/W_W_heatmap_fin.png'), dpi = 250)
             plt.close()
 
         def setLocalHeatmap(localavailable, transFVT):
-            print(localavailable)
-            print(len(localavailable))
+            #print(localavailable)
+            #print(len(localavailable))
             hm = pd.DataFrame(np.array(localavailable).reshape(12,59), columns =list(transFVT.columns),index=list(transFVT.index))
             plt.figure(figsize=(20,8))
             plt.ylabel('y',rotation='vertical')
@@ -206,7 +208,7 @@ def upload_csv(request):
             cbar.set_ticks([.4,1.15,1.85,2.62])
             cbar.set_ticklabels(['Seasonally Unavailable, No purchase','Seasonally Available, No Purchase','Seasonally Available, Local Purchase','Seasonally Unavailable, Azonic Purchase'])
             plt.suptitle('Seasonal Improvement Opportunities', fontsize=16, x=.45)
-            plt.savefig("""/Users/Dasani/Freshpoint/freshpoint/freshpoint/static/img/W_W_goodmapv2.1.png""", dpi = 200)
+            plt.savefig(os.path.join(settings.BASE_DIR, 'static/img/W_W_goodmapv_fin.png'), dpi = 200)
             plt.tight_layout()
             plt.close()
 
