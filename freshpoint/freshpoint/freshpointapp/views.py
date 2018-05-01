@@ -148,36 +148,142 @@ def upload_csv(request):
         fvt_dict = {}
         combo_dict = {}
 
-        def hmFVT2FP(fvtProduct,fvtMonth,fvtAvailability,FreshPoint):
+        def setavailable(transFVT,avallist):
+            if avallist == available:
+                for fvtindex, fvtrow in transFVT.iterrows():
+                    for product in fvtrow.index:
+                        fvtProduct = product
+                        fvtMonth = fvtindex
+                        fvtAvailability = fvtrow[product]
+
+                        outer = hmFVT2FP(fvtProduct,fvtMonth,fvtAvailability,fp_final_df,available)
+                        if outer == 0 and fvtAvailability == 0.0:
+                            available.append(0)
+
+                        if outer == 0 and fvtAvailability == 1.0:
+                            available.append(1)
+
+            if avallist == localavailable:
+                for fvtindex, fvtrow in transFVT.iterrows():
+                    for product in fvtrow.index:
+                        fvtProduct = product
+                        fvtMonth = fvtindex
+                        fvtAvailability = fvtrow[product]
+
+                        outer = hmFVT2FP(fvtProduct,fvtMonth,fvtAvailability,fp_final_df,localavailable)
+                        if outer == 0 and fvtAvailability == 0.0:
+                            localavailable.append(0)
+                        if outer == 0 and fvtAvailability == 1.0:
+                            localavailable.append(1)
+
+        def setAzonicHeatmap(available, transFVT):
+            print (available)
+            print (len(available))
+            hm = pd.DataFrame(np.array(available).reshape(12,59), columns =list(transFVT.columns),index=list(transFVT.index))
+            plt.figure(figsize=(20,7))
+
+            plt.ylabel('y',rotation='vertical')
+            hmFinish = sns.heatmap(hm,linecolor='black',cmap=ListedColormap(['None', 'yellow', 'green','red']),square=True,linewidth=.5)
+            loc, labels = plt.xticks(fontsize=8, rotation=75)
+            cbar = hmFinish.collections[0].colorbar
+            cbar.set_ticks([.4,1.15,1.85,2.62])
+            cbar.set_ticklabels(['Seasonally Unavailable, No Purchase','Seasonally Availalable, No Azonic Purchased','Seasonally Unavailable, Azonic Purchase','Seasonally Avaliable, Azonic Purchase'])
+            plt.suptitle('Seasonal Opportunities', x=.45, fontsize=14)
+            plt.title("""Comparing what you've done with what you could do, with regards to purchasing locally.""", fontsize=10)
+            print("before savefig")
+            plt.savefig("""/Users/Dasani/Freshpoint/freshpoint/freshpoint/static/img/W_W_heatmapv2.png""", dpi = 250)
+            plt.close()
+
+        def setLocalHeatmap(localavailable, transFVT):
+            print(localavailable)
+            print(len(localavailable))
+            hm = pd.DataFrame(np.array(localavailable).reshape(12,59), columns =list(transFVT.columns),index=list(transFVT.index))
+            plt.figure(figsize=(20,8))
+            plt.ylabel('y',rotation='vertical')
+            hmFinish = sns.heatmap(hm,linecolor='black',cmap=ListedColormap(['None', 'grey','green','pink']),square=True,linewidth=.5)
+            loc, labels = plt.xticks(fontsize=8, rotation=75)    #hmFinish.xaxis.tick_top()
+            cbar = hmFinish.collections[0].colorbar
+            cbar.set_ticks([.4,1.15,1.85,2.62])
+            cbar.set_ticklabels(['Seasonally Unavailable, No purchase','Seasonally Available, No Purchase','Seasonally Available, Local Purchase','Seasonally Unavailable, Azonic Purchase'])
+            plt.suptitle('Seasonal Improvement Opportunities', fontsize=16, x=.45)
+            plt.savefig("""/Users/Dasani/Freshpoint/freshpoint/freshpoint/static/img/W_W_goodmapv2.1.png""", dpi = 200)
+            plt.tight_layout()
+            plt.close()
+
+        def hmFVT2FP(fvtProduct,fvtMonth,fvtAvailability,FreshPoint,mapType):
             inner=0
             global localCount
-            for fpindex, fprow in FreshPoint.iterrows():
-                fpMonth = fprow['CsvMonth']
-                fpCases = fprow['Cases']
-                fpProduct = fprow['FoodType']
-                #print ('fvtProduct: ', fvtProduct, ' fpProduct: ', fpProduct, '| fpMonth: ', fpMonth, ' fvtMonth: ',
-                #       fvtMonth, '| fpCases: ', fpCases, '| fvtAvailability: ', fvtAvailability,' AKA fvtrow[fvtProduct] : ', fvtrow[fvtProduct], '\n', file=f)
+            if mapType == available:
+                for fpindex, fprow in FreshPoint.iterrows():
+                    fpMonth = fprow['CsvMonth']
+                    fpCases = fprow['Cases']
+                    fpProduct = fprow['FoodType']
+                    fpLocal = fprow['Local']
+                    #print ('fvtProduct: ', fvtProduct, ' fpProduct: ', fpProduct, '| fpMonth: ', fpMonth, ' fvtMonth: ',
+                    #       fvtMonth, '| fpCases: ', fpCases, '| fvtAvailability: ', fvtAvailability,' AKA fvtrow[fvtProduct] : ', fvtrow[fvtProduct], '\n', file=f)
 
-                if fpMonth.lower() == fvtMonth.lower() and fpProduct.lower()==fvtProduct.lower():
-                    inner+=1
-                    if fpCases > 0.0:
+                    if fpMonth.lower() == fvtMonth.lower() and fpProduct.lower()==fvtProduct.lower():
+                        inner+=1
+                        if fpCases > 0.0:
 
-                        if fvtAvailability == 0.0:
-                            available.append(2)
+                            if fvtAvailability == 0.0 and fpLocal == 0.0:
+                                available.append(2)
+
+                            elif fvtAvailability == 1.0 and fpLocal == 0.0:
+                                available.append(3)
+                                #keep track of how many are locally purchased may be better to perform act from sql?
+
+                            elif fvtAvailability == 0.0 and fpLocal > 0.0:
+                                available.append(2)
+
+                            elif fvtAvailability == 1.0 and fpLocal > 0.0:
+                                available.append(1)
+
+                            else:
+                                break
 
                         elif fvtAvailability == 1.0:
-                            available.append(3)
-                            #keep track of how many are locally purchased may be better to perform act from sql?
+                            available.append(1)
                         else:
-                            break
+                            available.append(0)
 
-                    elif fvtAvailability == 1.0:
-                        available.append(1)
-                    else:
-                        available.append(0)
+                return inner
 
-            return inner
+            if mapType == localavailable:
+                for fpindex, fprow in FreshPoint.iterrows():
+                    fpMonth = fprow['CsvMonth']
+                    fpCases = fprow['Cases']
+                    fpProduct = fprow['FoodType']
+                    fpLocal = fprow['Local']
+                    #print ('fvtProduct: ', fvtProduct, ' fpProduct: ', fpProduct, '| fpMonth: ', fpMonth, ' fvtMonth: ', fvtMonth, '| fpCases: ', fpCases, '\n')
 
+                    if fpMonth.lower() == fvtMonth.lower() and fpProduct.lower()==fvtProduct.lower():
+                        inner+=1
+                        if fpCases > 0.0:
+
+                            if fvtAvailability == 0.0 and fpLocal > 0:
+                                localavailable.append(3)
+
+                            elif fvtAvailability == 1.0 and fpLocal == 0:
+                                localavailable.append(1)
+
+                            elif fvtAvailability == 0.0 and fpLocal == 0:
+                                localavailable.append(3)
+
+                            elif fvtAvailability == 1.0 and fpLocal > 0:
+                                localavailable.append(2)
+                            else:
+                                localavailable.append(0)
+                                break
+
+
+                        elif fvtAvailability == 1.0:
+                            localavailable.append(1)
+
+                        else:
+                            localavailable.append(0)
+
+                return inner
         def column(fvt_list, colnum):
             return ([row[colnum] for row in fvt_list])
 
@@ -230,7 +336,7 @@ def upload_csv(request):
         ######
         fp_data = pd.DataFrame.from_dict(data_dict)
         fp_data = fp_data.iloc[1:]
-        fp_final_df = fp_data[['CsvMonth','Cases','FoodType']]
+        fp_final_df = fp_data[['CsvMonth','Cases','FoodType', 'Local']]
         fp_final_df = fp_final_df.loc[fp_final_df['FoodType'] != '']
         fp_final_df = fp_final_df.reset_index(drop=True)
         fp_final_df = fp_final_df.groupby(["""CsvMonth""", """FoodType"""]).sum().reset_index()
@@ -247,41 +353,20 @@ def upload_csv(request):
 
         sorted_combo_dict = OrderedDict(sorted(combo_dict.items(),key =lambda x:month_names.index(x[0])))
         FVT = pd.DataFrame(sorted_combo_dict)
-
-        available=[]
         transFVT = FVT.set_index('Food').T
-        for fvtindex, fvtrow in transFVT.iterrows():
-            for product in fvtrow.index:
-                fvtProduct = product
-                fvtMonth = fvtindex
-                fvtAvailability = fvtrow[product]
+        available=[]
+        localavailable=[]
 
-                outer = hmFVT2FP(fvtProduct,fvtMonth,fvtAvailability,fp_final_df)
-                if outer == 0 and fvtAvailability == 0.0:
-                    available.append(0)
-                if outer == 0 and fvtAvailability == 1.0:
-                    available.append(1)
-
-        hm = pd.DataFrame(np.array(available).reshape(12,59), columns =list(transFVT.columns),index=list(transFVT.index))
-        plt.figure(figsize=(20,7))
-
-        plt.ylabel('y',rotation='vertical')
-        hmFinish = sns.heatmap(hm,linecolor='black',cmap=ListedColormap(['None', 'yellow', 'green','red']),square=True,linewidth=.5)
-        loc, labels = plt.xticks(fontsize=8, rotation=75)
-        cbar = hmFinish.collections[0].colorbar
-        cbar.set_ticks([.4,1.15,1.85,2.62])
-        cbar.set_ticklabels(['Seasonally Unavailable, No Purchase','Seasonally Availalable, No Azonic Purchased','Seasonally Unavailable, Azonic Purchase','Seasonally Avaliable, Azonic Purchase'])
-        plt.suptitle('Seasonal Opportunities', x=.45, fontsize=14)
-        plt.title("""Comparing what you've done with what you could do, with regards to purchasing locally.""", fontsize=10)
-        print("before savefig")
-        plt.savefig("""/Users/Dasani/Freshpoint/freshpoint/freshpoint/static/img/W_W_heatmapv2.png""", dpi = 250)
-        plt.close()
+        setavailable(transFVT,available)
+        setavailable(transFVT,localavailable)
+        setAzonicHeatmap(available, transFVT)
+        setLocalHeatmap(localavailable, transFVT)
 
     except Exception as e:
         logging.getLogger("error_logger").error("Unable to upload file. "+repr(e))
         messages.error(request, "Unable to upload file. "+repr(e))
 
 
-    return redirect('/upload_csv')
+    return redirect('/index')
 
 
