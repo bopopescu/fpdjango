@@ -73,6 +73,9 @@ def intro(request):
 
 def about(request):
     about = loader.get_template('freshpointapp/about.html')
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('/')
     context = {
 
     }
@@ -103,7 +106,6 @@ def logout_view(request):
     context = {
 
     }
-
     logout(request)
     return redirect(logOut)
 
@@ -118,6 +120,9 @@ def success(request):
 
 def upload(request):
     uploadpage = loader.get_template('freshpointapp/upload.html')
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('/')
     context = {
 
     }
@@ -363,6 +368,7 @@ def upload_csv(request):
         setavailable(transFVT,localavailable)
         setAzonicHeatmap(available, transFVT)
         setLocalHeatmap(localavailable, transFVT)
+
 
     except Exception as e:
         logging.getLogger("error_logger").error("Unable to upload file. "+repr(e))
