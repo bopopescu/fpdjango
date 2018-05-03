@@ -193,7 +193,7 @@ def upload_csv(request):
             plt.suptitle('Seasonal Opportunities', x=.45, fontsize=14)
             plt.title("""Comparing what you've done with what you could do, with regards to purchasing locally.""", fontsize=10)
             #print("before savefig")
-            plt.savefig(os.path.join(settings.BASE_DIR, 'static/img/W_W_heatmap_fin.png'), dpi = 250)
+            plt.savefig(os.path.join(settings.BASE_DIR, 'static/img/W_W_heatmap_{0}.png'.format(request.user)), dpi = 250)
             plt.close()
 
         def setLocalHeatmap(localavailable, transFVT):
@@ -208,7 +208,7 @@ def upload_csv(request):
             cbar.set_ticks([.4,1.15,1.85,2.62])
             cbar.set_ticklabels(['Seasonally Unavailable, No purchase','Seasonally Available, No Local Purchase','Seasonally Available, Local Purchase','Seasonally Unavailable, Azonic Purchase'])
             plt.suptitle('Seasonal Improvement Opportunities', fontsize=16, x=.45)
-            plt.savefig(os.path.join(settings.BASE_DIR, 'static/img/W_W_goodmapv_fin.png'), dpi = 200)
+            plt.savefig(os.path.join(settings.BASE_DIR, 'static/img/W_W_goodmapv_{0}.png'.format(request.user)), dpi = 200)
             plt.tight_layout()
             plt.close()
 

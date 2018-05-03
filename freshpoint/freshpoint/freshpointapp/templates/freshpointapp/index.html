@@ -76,15 +76,15 @@
       <div class="col-sm-6">
         <div class="chart-wrapper">
           <div class="chart-title">
-            Last report (past 24 hours)
+            Last report
           </div>
           <div class="chart-stage">
 
             <!-- ________________________________________________________________ -->
             <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;">
-                <img id="img" src="../../../static/img/W_W_heatmap_fin.png" onerror="this.src='../../../static/img/f_p_heatmapV1.png'" style='height: 100%; width: 100%; object-fit: contain'>
+                <img id="img" src="../../../static/img/W_W_heatmap_{{ user.get_username }}.png" onerror="this.src='../../../static/img/f_p_heatmapV1.png'" style='height: 100%; width: 100%; object-fit: contain'>
             </div>
-              <a href="../../../static/img/W_W_heatmap_fin.png" download="Your_Heatmap.png">Download</a>
+              <a href="../../../static/img/W_W_heatmap_{{ user.get_username }}.png" download="Your_Heatmap.png">Download</a>
 
 
           </div>
@@ -95,15 +95,15 @@
       <div class="col-sm-6">
         <div class="chart-wrapper">
           <div class="chart-title">
-            Last Report (past 5 days)
+            Last Report
           </div>
           <div class="chart-stage">
 
             <!-- ________________________________________________________________ -->
             <div id="chartContainer3" style="height: 370px; width: 100%;">
-                <img id="img" src="../../../static/img/W_W_goodmapv_fin.png" onerror="this.src='../../../static/img/f_p_goodmapV1.png'" style='height: 100%; width: 100%; object-fit: contain'>
+                <img id="img" src="../../../static/img/W_W_goodmapv_{{ user.get_username }}.png" onerror="this.src='../../../static/img/f_p_goodmapV1.png'" style='height: 100%; width: 100%; object-fit: contain'>
             </div>
-              <a href="../../../static/img/W_W_goodmapv_fin.png" download="Your_Goodmap.png">Download</a>
+              <a href="../../../static/img/W_W_goodmapv_{{ user.get_username }}.png" download="Your_Goodmap.png">Download</a>
 
 
           </div>
