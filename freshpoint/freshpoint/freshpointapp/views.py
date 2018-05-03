@@ -377,4 +377,3 @@ def upload_csv(request):
 
     return redirect('/index')
 
-
