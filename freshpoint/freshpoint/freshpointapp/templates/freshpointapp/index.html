@@ -73,7 +73,7 @@
   <div class="container-fluid">
     <div class="row">
 
-      <div class="col-sm-6">
+      <div class="col-sm-12">
         <div class="chart-wrapper">
           <div class="chart-title">
             Last report
@@ -81,7 +81,7 @@
           <div class="chart-stage">
 
             <!-- ________________________________________________________________ -->
-            <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;">
+            <div id="chartContainer" style="height: auto; width: auto; margin: 0px auto;">
                 <img id="img" src="../../../static/img/W_W_heatmap_{{ user.get_username }}.png" onerror="this.src='../../../static/img/f_p_heatmapV1.png'" style='height: 100%; width: 100%; object-fit: contain'>
             </div>
               <a href="../../../static/img/W_W_heatmap_{{ user.get_username }}.png" download="Your_Heatmap.png">Download</a>
@@ -91,8 +91,10 @@
 
         </div>
       </div>
+    </div>
+        <div class="row">
 
-      <div class="col-sm-6">
+      <div class="col-sm-12">
         <div class="chart-wrapper">
           <div class="chart-title">
             Last Report
@@ -100,7 +102,7 @@
           <div class="chart-stage">
 
             <!-- ________________________________________________________________ -->
-            <div id="chartContainer3" style="height: 370px; width: 100%;">
+            <div id="chartContainer3" style="height: auto; width: auto;">
                 <img id="img" src="../../../static/img/W_W_goodmapv_{{ user.get_username }}.png" onerror="this.src='../../../static/img/f_p_goodmapV1.png'" style='height: 100%; width: 100%; object-fit: contain'>
             </div>
               <a href="../../../static/img/W_W_goodmapv_{{ user.get_username }}.png" download="Your_Goodmap.png">Download</a>
@@ -124,7 +126,7 @@
           <div class="chart-stage">
 
              <!-- ________________________________________________________________ -->
-             <div id="chartContainer2" style="height: 370px; max-width: 920px; margin: 0px auto;">
+             <div id="chartContainer2" style="height: auto; width: auto; margin: 0px auto;">
                  <img id="img" src="../../../static/img/fp_wordcloudV1.png" style="width: inherit; height: inherit">
              </div>
               <a href="../../../static/img/fp_wordcloudV1.png" download="fp_wordcloudV1.png">Download</a>
