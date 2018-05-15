@@ -46,6 +46,7 @@ Instruction:
     pip install django mysqlclient
 
 6. Clone this repository: git clone https://github.com/DSwift510/fpdjango.git
+
     type 'pip install -r \path\to\requirements.txt'
     
 Once you've successfully completed the steps above, the next step is to ensure connection between the DB and the app
