@@ -137,21 +137,56 @@ def upload_csv(request):
 
     try:
         csv_file = request.FILES["csv_file"]
-        if not csv_file.name.endswith('.csv'):
-            messages.error(request, 'File is not CSV type')
-            return HttpResponseRedirect(reverse("freshpointapp/upload.html"))
+        fvt_file = request.FILES.get('fvt_file',False)
 
-        # if file is too large, return
-        if csv_file.multiple_chunks():
-            messages.error(request, "Uploaded file is too big (%.2f MB)." % (csv_file.size/(1000*1000),))
-            return HttpResponseRedirect(reverse("freshpointapp/upload.html"))
+        def verifycsv(csv):
+            if not csv.name.endswith('.csv'):
+                messages.error(request, 'File is not CSV type')
+                return HttpResponseRedirect(reverse('freshpointapp/upload.html'))
 
+            # if file is too large, return
+            if csv.multiple_chunks():
+                messages.error(request, "Uploaded file is too big (%.2f MB)." % (csv.size/(1000*1000),))
+                return HttpResponseRedirect(reverse('freshpointapp/upload.html'))
+
+        verifycsv(csv_file)
+        if fvt_file:
+            verifycsv(fvt_file)
         #Variable declaration for FVT
         Saleshist = []
-        fvt_list = [(19,'GREEN ONIONS',0,0,0,0,0,1,1,1,1,0,0,0,1017596),(12,'CHERRY TOMATOES',0,0,0,0,0,0,1,1,1,1,0,0,1106274),(50,'SPRITE MELONS',0,0,0,0,0,0,1,1,0,0,0,0,1197281),(7,'BROCCOLI',0,0,0,1,1,0,0,0,0,0,0,0,1201376),(24,'INDIA CORN ',0,0,0,0,0,0,0,0,1,1,1,0,1201958),(49,'SPINACH',1,1,1,1,1,0,0,0,0,1,1,1,1250955),(32,'OKRA',0,0,0,0,0,0,1,1,0,0,0,0,1295483),(54,'SWEET POTATOES',1,1,1,1,1,1,1,1,1,1,1,1,1583974),(45,'ROMAINE',0,0,0,1,1,0,0,0,0,1,1,0,1657272),(10,'CANTALOUPE',0,0,0,0,0,0,1,1,0,0,0,0,1695538),(42,'PUMPKINS',0,0,0,0,0,0,0,0,1,1,0,0,1840745),(31,'NECTARINE',0,0,0,0,0,0,1,1,0,0,0,0,1893549),(26,'LETTUCE',0,0,0,1,1,0,0,0,0,1,1,1,1910007),(16,'EGGPLANT',0,0,0,0,0,1,1,1,0,0,0,0,1921959),(44,'RASPBERRIES',0,0,0,0,0,1,0,0,1,1,0,0,1925689),(23,'HONEYDEW',0,0,0,0,0,0,1,1,0,0,0,0,2035329),(15,'CUCUMBER',0,0,0,0,0,1,1,1,1,1,1,0,2125830),(2,'ASPARAGUS',0,0,1,1,0,0,0,0,0,0,0,0,2289502),(39,'PERSIMMONS',0,0,0,0,0,0,0,0,1,1,0,0,2361346),(4,'BLACKBERRIES',0,0,0,0,0,1,1,0,1,0,0,0,2497648),(1,'APPLE',1,1,0,0,0,0,0,1,1,1,1,1,2557119),(21,'GREENS',0,0,1,1,1,1,1,1,1,1,1,1,2621525),(53,'SWEET CORN',0,0,0,0,0,1,1,1,1,0,0,0,2834656),(27,'MUSCADINE GRAPES',0,0,0,0,0,0,0,1,1,1,0,0,2845392),(43,'RADISH',0,0,0,1,1,1,0,0,0,1,1,0,2946537),(11,'CARROTS',1,0,0,0,0,1,1,0,0,0,0,1,2953655),(29,'MUSTARD GREENS',0,0,0,1,1,1,0,0,1,1,1,1,2971863),(57,'WATERMELON',0,0,0,0,0,0,1,1,0,0,0,0,2979790),(14,'COLLARDS',1,1,1,1,1,1,1,1,1,1,1,1,3002007),(55,'TOMATO',0,0,0,0,0,1,1,1,1,1,0,0,3013774),(34,'PEACH',0,0,0,0,0,1,1,1,1,0,0,0,3058103),(20,'GREENS PEAS',0,0,0,0,1,0,0,0,0,0,0,0,3304894),(5,'BLUEBERRY',0,0,0,0,1,1,1,0,0,0,0,0,3412757),(13,'CHRISTMAS TREES',0,0,0,0,0,0,0,0,0,0,1,1,3442780),(3,'BEETS',0,0,0,0,1,1,0,0,0,1,1,1,3509996),(46,'SNAP BEANS',0,0,0,0,0,1,1,1,1,0,0,0,3555013),(35,'PEANUTS',1,1,1,1,1,1,1,1,1,1,1,1,3658846),(25,'KALE',0,0,0,0,1,1,0,0,0,1,1,1,3676040),(30,'NAPA',0,0,0,0,1,1,0,0,0,1,1,0,3754851),(9,'CABBAGE',0,0,0,0,1,1,1,1,1,1,1,1,3805072),(6,'BOKCHOY',0,0,0,0,1,1,0,0,0,1,1,1,3810851),(56,'TURNIP',0,0,0,1,1,1,0,0,0,1,1,1,3838576),(51,'SQUASH-YELLOW',0,0,0,0,1,1,1,1,1,0,0,0,3852220),(8,'BUTTERBEANS',0,0,0,0,0,0,1,1,0,0,0,0,3882505),(41,'POTATO',0,0,0,0,0,1,1,0,0,0,0,0,3898135),(58,'ZUCCHINI',0,0,0,0,1,1,1,1,1,0,0,0,3981754),(59,'TOMATILLO',0,0,0,0,0,1,1,1,1,1,0,0,3981755),(28,'MUSHROOM',0,0,1,1,1,1,0,0,1,1,1,0,4067311),(37,'PECANS',0,0,0,0,0,0,0,0,0,0,1,1,4127838),(36,'PEARS',0,0,0,0,0,0,0,1,1,1,0,0,4236146),(17,'FIGS',0,0,0,0,0,0,1,1,1,1,1,1,4335992),(40,'PLUMS',0,0,0,0,0,1,1,1,0,0,0,0,4487531),(52,'STRAWBERRY',0,0,0,1,1,1,0,0,0,0,0,0,4494988),(48,'SNOW PEAS TIPS',0,0,0,1,1,0,0,0,0,1,1,0,4496223),(38,'PEPPER',0,0,0,0,0,1,1,1,0,0,0,0,4606080),(33,'ONION',0,0,0,0,0,1,1,0,0,0,0,0,4672570),(47,'SNOW PEAS',0,0,0,0,1,1,0,0,0,1,1,0,4852257),(22,'HERB',1,1,1,1,1,1,1,1,1,1,1,1,4902192),(18,'GARLIC',0,0,0,0,0,0,1,1,0,0,0,0,4921692)]
-        fvt_list = sorted(fvt_list, key=lambda fvt: fvt[0])
-        column_names = ("ID","Food","January","February","March","April","May","June","July","August","September","October","November","December","ProductID")
-        month_names = ["Food","January","February","March","April","May","June","July","August","September","October","November","December"]
+        if not fvt_file:
+            fvt_list = [(19,'GREEN ONIONS',0,0,0,0,0,1,1,1,1,0,0,0,1017596),(12,'CHERRY TOMATOES',0,0,0,0,0,0,1,1,1,1,0,0,1106274),(50,'SPRITE MELONS',0,0,0,0,0,0,1,1,0,0,0,0,1197281),(7,'BROCCOLI',0,0,0,1,1,0,0,0,0,0,0,0,1201376),(24,'INDIA CORN ',0,0,0,0,0,0,0,0,1,1,1,0,1201958),(49,'SPINACH',1,1,1,1,1,0,0,0,0,1,1,1,1250955),(32,'OKRA',0,0,0,0,0,0,1,1,0,0,0,0,1295483),(54,'SWEET POTATOES',1,1,1,1,1,1,1,1,1,1,1,1,1583974),(45,'ROMAINE',0,0,0,1,1,0,0,0,0,1,1,0,1657272),(10,'CANTALOUPE',0,0,0,0,0,0,1,1,0,0,0,0,1695538),(42,'PUMPKINS',0,0,0,0,0,0,0,0,1,1,0,0,1840745),(31,'NECTARINE',0,0,0,0,0,0,1,1,0,0,0,0,1893549),(26,'LETTUCE',0,0,0,1,1,0,0,0,0,1,1,1,1910007),(16,'EGGPLANT',0,0,0,0,0,1,1,1,0,0,0,0,1921959),(44,'RASPBERRIES',0,0,0,0,0,1,0,0,1,1,0,0,1925689),(23,'HONEYDEW',0,0,0,0,0,0,1,1,0,0,0,0,2035329),(15,'CUCUMBER',0,0,0,0,0,1,1,1,1,1,1,0,2125830),(2,'ASPARAGUS',0,0,1,1,0,0,0,0,0,0,0,0,2289502),(39,'PERSIMMONS',0,0,0,0,0,0,0,0,1,1,0,0,2361346),(4,'BLACKBERRIES',0,0,0,0,0,1,1,0,1,0,0,0,2497648),(1,'APPLE',1,1,0,0,0,0,0,1,1,1,1,1,2557119),(21,'GREENS',0,0,1,1,1,1,1,1,1,1,1,1,2621525),(53,'SWEET CORN',0,0,0,0,0,1,1,1,1,0,0,0,2834656),(27,'MUSCADINE GRAPES',0,0,0,0,0,0,0,1,1,1,0,0,2845392),(43,'RADISH',0,0,0,1,1,1,0,0,0,1,1,0,2946537),(11,'CARROTS',1,0,0,0,0,1,1,0,0,0,0,1,2953655),(29,'MUSTARD GREENS',0,0,0,1,1,1,0,0,1,1,1,1,2971863),(57,'WATERMELON',0,0,0,0,0,0,1,1,0,0,0,0,2979790),(14,'COLLARDS',1,1,1,1,1,1,1,1,1,1,1,1,3002007),(55,'TOMATO',0,0,0,0,0,1,1,1,1,1,0,0,3013774),(34,'PEACH',0,0,0,0,0,1,1,1,1,0,0,0,3058103),(20,'GREENS PEAS',0,0,0,0,1,0,0,0,0,0,0,0,3304894),(5,'BLUEBERRY',0,0,0,0,1,1,1,0,0,0,0,0,3412757),(13,'CHRISTMAS TREES',0,0,0,0,0,0,0,0,0,0,1,1,3442780),(3,'BEETS',0,0,0,0,1,1,0,0,0,1,1,1,3509996),(46,'SNAP BEANS',0,0,0,0,0,1,1,1,1,0,0,0,3555013),(35,'PEANUTS',1,1,1,1,1,1,1,1,1,1,1,1,3658846),(25,'KALE',0,0,0,0,1,1,0,0,0,1,1,1,3676040),(30,'NAPA',0,0,0,0,1,1,0,0,0,1,1,0,3754851),(9,'CABBAGE',0,0,0,0,1,1,1,1,1,1,1,1,3805072),(6,'BOKCHOY',0,0,0,0,1,1,0,0,0,1,1,1,3810851),(56,'TURNIP',0,0,0,1,1,1,0,0,0,1,1,1,3838576),(51,'SQUASH-YELLOW',0,0,0,0,1,1,1,1,1,0,0,0,3852220),(8,'BUTTERBEANS',0,0,0,0,0,0,1,1,0,0,0,0,3882505),(41,'POTATO',0,0,0,0,0,1,1,0,0,0,0,0,3898135),(58,'ZUCCHINI',0,0,0,0,1,1,1,1,1,0,0,0,3981754),(59,'TOMATILLO',0,0,0,0,0,1,1,1,1,1,0,0,3981755),(28,'MUSHROOM',0,0,1,1,1,1,0,0,1,1,1,0,4067311),(37,'PECANS',0,0,0,0,0,0,0,0,0,0,1,1,4127838),(36,'PEARS',0,0,0,0,0,0,0,1,1,1,0,0,4236146),(17,'FIGS',0,0,0,0,0,0,1,1,1,1,1,1,4335992),(40,'PLUMS',0,0,0,0,0,1,1,1,0,0,0,0,4487531),(52,'STRAWBERRY',0,0,0,1,1,1,0,0,0,0,0,0,4494988),(48,'SNOW PEAS TIPS',0,0,0,1,1,0,0,0,0,1,1,0,4496223),(38,'PEPPER',0,0,0,0,0,1,1,1,0,0,0,0,4606080),(33,'ONION',0,0,0,0,0,1,1,0,0,0,0,0,4672570),(47,'SNOW PEAS',0,0,0,0,1,1,0,0,0,1,1,0,4852257),(22,'HERB',1,1,1,1,1,1,1,1,1,1,1,1,4902192),(18,'GARLIC',0,0,0,0,0,0,1,1,0,0,0,0,4921692)]
+            fvt_list = sorted(fvt_list, key=lambda fvt: fvt[0])
+            column_names = ("ID","Food","January","February","March","April","May","June","July","August","September","October","November","December","ProductID")
+            month_names = ["Food","January","February","March","April","May","June","July","August","September","October","November","December"]
+
+        else:
+            fvt_file_data = fvt_file.read().decode("utf-8")
+            fvt_lines = fvt_file_data.split("\n")
+            fvt_data_dict = {"Food":[],"January":[],"February":[],"March":[],"April":[],"May":[],"June":[],"July":[],"August":[],"September":[],"October":[],"November":[],"December":[]}
+
+            #loop over the lines and add them to dataframe. If error , store as string and then display
+            for line in fvt_lines:
+
+                fields = line.split(",")
+
+                fvt_data_dict["Food"].append(fields[0])
+                fvt_data_dict["January"].append(fields[1])
+                fvt_data_dict["February"].append(fields[2])
+                fvt_data_dict["March"].append(fields[3])
+                fvt_data_dict["April"].append(fields[4])
+                fvt_data_dict["May"].append(fields[5])
+                fvt_data_dict["June"].append(fields[6])
+                fvt_data_dict["July"].append(fields[7])
+                fvt_data_dict["August"].append(fields[8])
+                fvt_data_dict["September"].append(fields[9])
+                fvt_data_dict["October"].append(fields[10])
+                fvt_data_dict["November"].append(fields[11])
+                fvt_data_dict["December"].append(fields[12])
+
+
+
+
         fvt_dict = {}
         combo_dict = {}
 
@@ -348,15 +383,6 @@ def upload_csv(request):
         fp_final_df = fp_final_df.reset_index(drop=True)
         fp_final_df = fp_final_df.groupby(["""CsvMonth""", """FoodType"""]).sum().reset_index()
         fp_final_df.to_csv('fp_final_df.txt', header=None, sep=' ', mode='w')
-        """try:
-                form = FoodClass(data_dict)
-                if form.is_valid():
-                    form.save()                    
-                else:
-                    logging.getLogger("error_logger").error(form.errors.as_json())                                                
-            except Exception as e:
-                logging.getLogger("error_logger").error(repr(e))                    
-                pass"""
 
         sorted_combo_dict = OrderedDict(sorted(combo_dict.items(),key =lambda x:month_names.index(x[0])))
         FVT = pd.DataFrame(sorted_combo_dict)
